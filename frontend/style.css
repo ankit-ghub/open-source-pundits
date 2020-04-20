@@ -1,0 +1,59 @@
+.split {
+    height: 100%;
+    width: 25%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+.submitButton {
+
+    padding: 50px;
+    width: 150px;
+    color: black;
+}
+/* Control the left side */
+.left {
+    left: 0;
+    background-color: gray;
+}
+
+/* Control the right side */
+.right {
+    right: 0;
+    background-color: gray;
+}
+
+/* If you want the content centered horizontally and vertically */
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+h1{
+    font-weight: 900;
+    color: black;
+    alignment: center;
+    font-size: large;
+}
+
+h2{
+    color: black;
+    alignment: center;
+}
+#myProgress {
+    width: 100%;
+    background-color: #ddd;
+}
+
+#myBar {
+    width: 10%;
+    height: 30px;
+    background-color: #4CAF50;
+    text-align: center;
+    line-height: 30px;
+    color: white;
+}

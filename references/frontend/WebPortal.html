@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Web Portal</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="javascript-functions/myFunctions.js"></script>
+</head>
+<body>
+<button type="button" id="showCurrentDate"
+        onclick="populateDate()">
+    Click me to display Date and Time.
+</button>
+<br/>
+<button
+        onclick="bulbOn()">
+    Turn on the light
+</button>
+<img id="myImage" src="pic_bulboff.gif" style="width:100px">
+<button
+        onclick="bulbOff()">
+    Turn off the light
+</button>
+
+<h2>Input - Item Details</h2>
+
+<form action="http://localhost:62242/action_page.php" method="post">
+    <label for="itemName">Item Name:</label>
+    <input type="text" id="itemName" name="itemName"><br>
+
+    <label for="itemType">Item Type:</label>
+    <input type="text" id="itemType" name="itemType"><br>
+
+    <label for="itemNumber">Item Number:</label>
+    <input type="text" id="itemNumber" name="itemNumber"><br>
+
+    <label for="storeCode">Store Code:</label>
+    <input type="text" id="storeCode" name="storeCode"><br>
+
+    <label for="quantity">Quantity:</label>
+    <input type="number" id="quantity" name="quantity"><br>
+
+    <label>Store</label><br>
+    <input type="radio" id="malmo" name="store" value="Malmo">
+    <label for="malmo">Malmo</label><br>
+    <input type="radio" id="helsinborg" name="store" value="Helsinborg">
+    <label for="helsinborg">Helsinborg</label><br>
+    <input type="radio" id="stockholm" name="store" value="Stockholm">
+    <label for="stockholm">Stockholm</label><br>
+
+    <br>
+    <br>
+    <input class="submitButton" type="submit" value="Submit">
+
+</form>
+<br>
+<br>
+<br>
+<div onmouseover="this.style.backgroundColor='yellow'" && onmouseout="this.style.backgroundColor='white'">Page Ends
+</div>
+</body>
+</html>

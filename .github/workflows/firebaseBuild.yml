@@ -32,7 +32,7 @@ jobs:
         secrets: |-
           token:ingka-edu-group3-dev/GOOGLE_APPLICATION_CREDENTIALS 
     - id: publish
-      uses: foo/bar@master
+      uses: actions-hub/gcloud@master
       env:
         TOKEN: ${{steps.secrets.outputs.token}}
       

@@ -28,6 +28,7 @@ jobs:
 
     # Runs a set of commands using the runners shell
     - name: Deploying Frontend to host it on Firebase
+      working-directory: firebase
       run: |
         gcloud builds submit --config cloudbuild.yaml .
-      working-directory: ./firebase
+      

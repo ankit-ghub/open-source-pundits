@@ -30,7 +30,7 @@ jobs:
       uses: GoogleCloudPlatform/github-actions/get-secretmanager-secrets@master
       with:
         secrets: |-
-          token:ingka-edu-group3-dev/GOOGLE_APPLICATION_CREDENTIALS 
+          token: ingka-edu-group3-dev/GOOGLE_APPLICATION_CREDENTIALS 
     - id: publish
       uses: actions-hub/gcloud@master
       env:

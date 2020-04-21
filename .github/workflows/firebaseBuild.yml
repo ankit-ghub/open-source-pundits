@@ -32,4 +32,5 @@ jobs:
       run: |
         pwd
         echo "gcloud builds submit --config cloudbuild.yaml ."
+        gcloud --help
       

@@ -7,24 +7,18 @@
     <script src="javascript-functions/myFunctions.js"></script>
 </head>
 <body>
-<button type="button" id="showCurrentDate"
-        onclick="populateDate()">
-    Click me to display Date and Time.
-</button>
-<br/>
-<button
-        onclick="bulbOn()">
-    Turn on the light
-</button>
-<img id="myImage" src="pic_bulboff.gif" style="width:100px">
-<button
-        onclick="bulbOff()">
-    Turn off the light
-</button>
 
+<h1 id="showCurrentDate"></h1>
+<button type="button"
+        onclick="populateDate()"><h2>
+    Click me to display Date and Time.
+</h2></button>
+
+<br/>
 <h2>Input - Item Details</h2>
 
-<form action="http://localhost:62242/action_page.php" method="post">
+
+<form  action="http://localhost:8082" method="post">
     <label for="itemName">Item Name:</label>
     <input type="text" id="itemName" name="itemName"><br>
 
@@ -32,10 +26,10 @@
     <input type="text" id="itemType" name="itemType"><br>
 
     <label for="itemNumber">Item Number:</label>
-    <input type="text" id="itemNumber" name="itemNumber"><br>
+    <input type="number" id="itemNumber" name="itemNumber"><br>
 
     <label for="storeCode">Store Code:</label>
-    <input type="text" id="storeCode" name="storeCode"><br>
+    <input type="number" id="storeCode" name="storeCode"><br>
 
     <label for="quantity">Quantity:</label>
     <input type="number" id="quantity" name="quantity"><br>
@@ -47,16 +41,16 @@
     <label for="helsinborg">Helsinborg</label><br>
     <input type="radio" id="stockholm" name="store" value="Stockholm">
     <label for="stockholm">Stockholm</label><br>
-
+    <label for="fileToUpload">Image to Upload</label>
+    <input type="file" name="fileToUpload" id="fileToUpload">
     <br>
     <br>
-    <input class="submitButton" type="submit" value="Submit">
-
+    <button class="submitButton" name="submit" type="submit">Submit</button>
 </form>
 <br>
-<br>
-<br>
-<div onmouseover="this.style.backgroundColor='yellow'" && onmouseout="this.style.backgroundColor='white'">Page Ends
+<div id="myProgress">
+    <div id="myBar">10%</div>
 </div>
+<button onclick="move()">Validate</button>
 </body>
 </html>

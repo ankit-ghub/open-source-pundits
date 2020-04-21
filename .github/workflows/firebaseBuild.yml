@@ -26,6 +26,16 @@ jobs:
     - name: Run a one-line script
       run: echo "Deployment Starts"
 
+    - id: secrets
+      uses: GoogleCloudPlatform/github-actions/get-secretmanager-secrets@master
+      with:
+      secrets: |-
+        token:ingka-edu-group3-dev/GOOGLE_APPLICATION_CREDENTIALS 
+    - id: publish
+      uses: foo/bar@master
+      env:
+        TOKEN: ${{steps.secrets.outputs.token}}
+      
     - uses: actions-hub/gcloud@master
       env:
         PROJECT_ID: ingka-edu-group3-dev
@@ -33,7 +43,8 @@ jobs:
         CLI: gcloud
       with:
         args: builds submit --config cloudbuild.yaml .
-      
+    
+    
     # Runs a set of commands using the runners shell
     - name: Deploying Frontend to host it on Firebase
       working-directory: firebase

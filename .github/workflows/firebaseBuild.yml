@@ -24,7 +24,7 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: Run a one-line script
-      run: echo "CI Check for Firebase Hosting"
+      run: pwd
 
     # Runs a set of commands using the runners shell
     - name: Deploying Frontend to host it on Firebase

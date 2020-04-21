@@ -36,7 +36,7 @@ jobs:
           APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
           CLI: gcloud
         with:
-          args: builds submit --config cloudbuild.yaml .
+          args: builds submit --config ${{working-directory}}/cloudbuild.yaml .
 
 
       # Runs a set of commands using the runners shell

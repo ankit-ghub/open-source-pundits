@@ -34,10 +34,9 @@ jobs:
         env:
           PROJECT_ID: ingka-edu-group3-dev
           APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-          workdir: ./firebase
           CLI: gcloud
         with:
-          args: builds submit --config ${{workdir}}/cloudbuild.yaml .
+          args: builds submit --config cloudbuild.yaml .
 
 
       # Runs a set of commands using the runners shell

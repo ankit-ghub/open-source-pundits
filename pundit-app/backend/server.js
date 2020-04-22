@@ -46,10 +46,30 @@ app.get('/version', (req, res) => {
     res.json({ version: '1.0.0' });
 });
 
+app.get('/items',function(req,res)
+{
+    //res.send('Home Page!');
+// Create a new client
+    const firestore = new Firestore();
+    const document = firestore.collection('Items').get()
+        .then((snapshot) => {
+            if (!snapshot.empty) {
+                const ret = {items: []};
+                snapshot.docs.forEach(element => {
+                    //get data
+                    const item = element.data();
+                    //console.log(item);
+                    ret.items.push(item);
+                }, this);
+                //console.log(ret.items);
+                res.json(ret);
+            }
+        });
+});
 
 // responsible for retrieving events from firestore and adding 
 // firestore's generated id to the returned object
-function getEvents(req, res) {
+function getItems(req, res) {
     firestore.collection("Items").get()
         .then((snapshot) => {
             if (!snapshot.empty) {
@@ -57,9 +77,6 @@ function getEvents(req, res) {
                 snapshot.docs.forEach(element => {
                     //get data
                     const el = element.data();
-                    //get internal firestore id
-                    el._id = element.id;
-                    //add object to array
                     ret.events.push(el);
                 }, this);
                 console.log(ret);
@@ -77,15 +94,15 @@ function getEvents(req, res) {
 
 
 
-// this has been modifed to call the shared getEvents method that
+// this has been modifed to call the shared getItems method that
 // returns data from firestore
-app.get('/events', (req, res) => {
-    getEvents(req, res);
-});
+// app.get('/items', (req, res) => {
+//     getItems(req, res);
+// });
 
 // This has been modified to insert into firestore, and then call 
-// the shared getEvents method.
-app.post('/items', (req, res) => {
+// the shared getItems method.
+app.post('/addItem', (req, res) => {
     // create a new object from the json data. The id property
     // has been removed because it is no longer required.
     // Firestore generates its own unique ids
@@ -100,7 +117,7 @@ app.post('/items', (req, res) => {
     }
     firestore.collection("Items").add(ev).then(ret => {
         // return events using shared method that adds __id
-        getEvents(req, res);
+        //getItems(req, res);
     });
 });
 
@@ -127,7 +144,7 @@ function changeLikes(req, res, id, increment) {
             firestore.collection("Items")
                 .doc(id).update(el).then((ret) => {
                     // return events using shared method that adds __id
-                    getEvents(req, res);
+                    getItems(req, res);
                 });
         })
         .catch(err => { console.log(err) });

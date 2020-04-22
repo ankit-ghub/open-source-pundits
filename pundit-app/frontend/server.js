@@ -12,12 +12,6 @@ const express = require('express');
 // https://www.npmjs.com/package/body-parser
 const bodyParser = require('body-parser');
 
-// express-handlebars is a templating library 
-// https://www.npmjs.com/package/express-handlebars
-// - look inside the views folder for the templates
-// data is inserted into a template inside {{ }}
-const hbs = require('express-handlebars');
-
 // request is used to make REST calls to the backend microservice
 // details here: https://www.npmjs.com/package/request
 var request = require('request');
@@ -26,11 +20,7 @@ var request = require('request');
 const app = express();
 
 // set up handlbars as the templating engine
-app.set('view engine', 'hbs');
-app.engine('hbs', hbs({
-    extname: 'hbs',
-    defaultView: 'default'
-}));
+app.set('view engine', 'jade');
 
 // set up the parser to get the contents of data from html forms 
 // this would be used in a POST to the server as follows:
@@ -41,13 +31,13 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false });
 // defines a route that receives the request to /
 app.get('/', (req, res) => {
     // make a request to the backend microservice using the request package
-    // the URL for the backend service should be set in configuration 
-    // using an environment variable. Here, the variable is passed 
+    // the URL for the backend service should be set in configuration
+    // using an environment variable. Here, the variable is passed
     // to npm start inside package.json:
     //  "start": "SERVER=http://localhost:8082 node server.js",
     request.get(  // first argument: url + return format
         {
-            url: SERVER + '/events',  // the microservice end point for events
+            url: SERVER + '/items',  // the microservice end point for events
             json: true  // response from server will be json format
         }, // second argument: function with three args,
         // runs when server response received
@@ -55,31 +45,60 @@ app.get('/', (req, res) => {
         (error, response, body) => {
             if (error) {
                 console.log('error:', error); // Print the error if one occurred
-                res.render('error_message',
-                    {
-                        layout: 'default',  //the outer html page
-                        error: error // pass the data from the server to the template
-                    });
+                // res.render('error_message',
+                //     {
+                //         layout: 'default',  //the outer html page
+                //         error: error // pass the data from the server to the template
+                //     });
             }
             else {
                 console.log('error:', error); // Print the error if one occurred
                 console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
                 console.log(body); // print the return from the server microservice
-                res.render('home',
-                    {
-                        layout: 'default',  //the outer html page
-                        template: 'index-template', // the partial view inserted into 
-                        // {{body}} in the layout - the code
-                        // in here inserts values from the JSON
-                        // received from the server
-                        events: body.events
-                    }); // pass the data from the server to the template
+
+                res.render('index',
+                    {items: body.items}
+                    ); // pass the data from the server to the template
+            }
+        });
+});
+
+app.get('/addItem', (req, res) => {
+    // make a request to the backend microservice using the request package
+    // the URL for the backend service should be set in configuration
+    // using an environment variable. Here, the variable is passed
+    // to npm start inside package.json:
+    //  "start": "SERVER=http://localhost:8082 node server.js",
+    request.get(  // first argument: url + return format
+        {
+            url: SERVER + '/items',  // the microservice end point for events
+            json: true  // response from server will be json format
+        }, // second argument: function with three args,
+        // runs when server response received
+        // body hold the return from the server
+        (error, response, body) => {
+            if (error) {
+                console.log('error:', error); // Print the error if one occurred
+                // res.render('error_message',
+                //     {
+                //         layout: 'default',  //the outer html page
+                //         error: error // pass the data from the server to the template
+                //     });
+            }
+            else {
+                console.log('error:', error); // Print the error if one occurred
+                console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+                console.log(body); // print the return from the server microservice
+
+                res.render('addItems',
+                    // {items: body.items}
+                ); // pass the data from the server to the template
             }
         });
 });
 
 // defines a route that receives the post request to /event
-app.post('/items',
+app.post('/addItem',
     urlencodedParser, // second argument - how to parse the uploaded content
     // into req.body
     (req, res) => {
@@ -90,23 +109,28 @@ app.post('/items',
         //  "start": "SERVER=http://localhost:8082 node server.js",
         request.post(  // first argument: url + data + formats
             {
-                url: SERVER + '/items',  // the microservice end point for adding an event
+                url: SERVER + '/addItem',  // the microservice end point for adding an event
                 body: req.body,  // content of the form
                 headers: { // uploading json
                     "Content-Type": "application/json"
                 },
                 json: true // response from server will be json format
             },
-            () => {
-                res.redirect("/"); // redirect to the home page on successful response
-            });
+            // () => {
+            //     res.render('addItems',
+            //         // {items: body.items}
+            //     )},
+            ()=> {
+                res.redirect("/");
+            }  // redirect to the home page on successful response
+        );
 
         console.log(req);
     });
 
 
 // defines a route that receives the post request to /event/like to like the event
-app.post('/items/like',
+app.post('/item/like',
     urlencodedParser, // second argument - how to parse the uploaded content
     // into req.body
     (req, res) => {
@@ -118,7 +142,7 @@ app.post('/items/like',
         // changed to a put now that real data is being updated
         request.put(  // first argument: url + data + formats
             {
-                url: SERVER + '/event/like',  // the microservice end point for liking an event
+                url: SERVER + '/item/like',  // the microservice end point for liking an event
                 body: req.body,  // content of the form
                 headers: { // uploading json
                     "Content-Type": "application/json"
@@ -133,7 +157,7 @@ app.post('/items/like',
 
 
 // defines a route that receives the delete request to /event/like to unlike the event
-app.post('/event/unlike',
+app.post('/item/unlike',
     urlencodedParser, // second argument - how to parse the uploaded content
     // into req.body
     (req, res) => {
@@ -144,7 +168,7 @@ app.post('/event/unlike',
         //  "start": "BACKEND_URL=http://localhost:8082 node server.js",
         request.delete(  // first argument: url + data + formats
             {
-                url: SERVER + '/event/like',  // the microservice end point for liking an event
+                url: SERVER + '/item/like',  // the microservice end point for liking an event
                 body: req.body,  // content of the form
                 headers: { // uploading json
                     "Content-Type": "application/json"
@@ -155,13 +179,7 @@ app.post('/event/unlike',
                 res.redirect("/"); // redirect to the home page on successful response
             });
 
-    });    
-
-// create other get and post methods here - version, login,  etc
-
-
-
-
+    });
 
 // generic error handling
 app.use((err, req, res, next) => {

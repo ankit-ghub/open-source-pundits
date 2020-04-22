@@ -7,6 +7,7 @@ const SERVER = (process.env.SERVER ? process.env.SERVER : "http://localhost:8082
 // express is a nodejs web server
 // https://www.npmjs.com/package/express
 const express = require('express');
+const path = require('path');
 
 // converts content in the request into parameter req.body
 // https://www.npmjs.com/package/body-parser
@@ -18,8 +19,8 @@ var request = require('request');
 
 // create the server
 const app = express();
+app.use(express.static(path.join(__dirname, 'views')));
 
-// set up handlbars as the templating engine
 app.set('view engine', 'jade');
 
 // set up the parser to get the contents of data from html forms 
@@ -29,7 +30,7 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 
 // defines a route that receives the request to /
-app.get('/', (req, res) => {
+app.get('/product', (req, res) => {
     // make a request to the backend microservice using the request package
     // the URL for the backend service should be set in configuration
     // using an environment variable. Here, the variable is passed
@@ -63,6 +64,12 @@ app.get('/', (req, res) => {
         });
 });
 
+app.get('/', (req, res) => {
+    res.sendFile( 'index.html');
+});
+app.get('/login', (req, resp) => {
+    resp.sendFile( __dirname + '/views/login.html');
+});
 app.get('/addItem', (req, res) => {
     // make a request to the backend microservice using the request package
     // the URL for the backend service should be set in configuration
@@ -88,11 +95,8 @@ app.get('/addItem', (req, res) => {
             else {
                 console.log('error:', error); // Print the error if one occurred
                 console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-                console.log(body); // print the return from the server microservice
 
-                res.render('addItems',
-                    // {items: body.items}
-                ); // pass the data from the server to the template
+                res.render('addItems'); // pass the data from the server to the template
             }
         });
 });
@@ -120,6 +124,32 @@ app.post('/addItem',
             //     res.render('addItems',
             //         // {items: body.items}
             //     )},
+            ()=> {
+                res.redirect("/");
+            }  // redirect to the home page on successful response
+        );
+
+        console.log(req);
+    });
+
+app.post('/contact',
+    urlencodedParser, // second argument - how to parse the uploaded content
+    // into req.body
+    (req, res) => {
+        // make a request to the backend microservice using the request package
+        // the URL for the backend service should be set in configuration
+        // using an environment variable. Here, the variable is passed
+        // to npm start inside package.json:
+        //  "start": "SERVER=http://localhost:8082 node server.js",
+        request.post(  // first argument: url + data + formats
+            {
+                url: SERVER + '/contact',  // the microservice end point for adding an event
+                body: req.body,  // content of the form
+                headers: { // uploading json
+                    "Content-Type": "application/json"
+                },
+                json: true // response from server will be json format
+            },
             ()=> {
                 res.redirect("/");
             }  // redirect to the home page on successful response

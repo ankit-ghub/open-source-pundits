@@ -121,6 +121,17 @@ app.post('/addItem', (req, res) => {
     });
 });
 
+app.post('/contact', (req, res) => {
+    // create a new object from the json data. The id property
+    // has been removed because it is no longer required.
+    // Firestore generates its own unique ids
+    const ev = {
+        name: req.body.name,
+        email: req.body.email,
+        message: req.body.message,
+    }
+    console.log(ev);
+});
 
 // function used by both like and unlike. If increment = true, a like is added.
 // If increment is false, a like is removed.

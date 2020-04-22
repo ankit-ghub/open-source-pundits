@@ -34,11 +34,26 @@
     text-align: center;
 }
 h1{
-    font-size: x-large;
+    font-weight: 900;
     color: black;
     alignment: center;
+    font-size: large;
 }
+
 h2{
     color: black;
     alignment: center;
+}
+#myProgress {
+    width: 100%;
+    background-color: #ddd;
+}
+
+#myBar {
+    width: 10%;
+    height: 30px;
+    background-color: #4CAF50;
+    text-align: center;
+    line-height: 30px;
+    color: white;
 }

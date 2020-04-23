@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 console.log(`process.env.SERVER = ${process.env.SERVER}`);
 // get the environment variable, but default to localhost:8082 if its not set
@@ -57,7 +57,7 @@ app.get('/product', (req, res) => {
                 console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
                 console.log(body); // print the return from the server microservice
 
-                res.render('index',
+                res.render('product',
                     {items: body.items}
                     ); // pass the data from the server to the template
             }
@@ -65,8 +65,42 @@ app.get('/product', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.sendFile( 'index.html');
+    // make a request to the backend microservice using the request package
+    // the URL for the backend service should be set in configuration
+    // using an environment variable. Here, the variable is passed
+    // to npm start inside package.json:
+    //  "start": "SERVER=http://localhost:8082 node server.js",
+    request.get(  // first argument: url + return format
+        {
+            url: SERVER + '/items',  // the microservice end point for events
+            json: true  // response from server will be json format
+        }, // second argument: function with three args,
+        // runs when server response received
+        // body hold the return from the server
+        (error, response, body) => {
+            if (error) {
+                console.log('error:', error); // Print the error if one occurred
+                // res.render('error_message',
+                //     {
+                //         layout: 'default',  //the outer html page
+                //         error: error // pass the data from the server to the template
+                //     });
+            }
+            else {
+                console.log('error:', error); // Print the error if one occurred
+                console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+                console.log(body); // print the return from the server microservice
+
+                res.render('index',
+                    {items: body.items}
+                ); // pass the data from the server to the template
+            }
+        });
 });
+
+// app.get('/test', (req, res) => {
+//     res.sendFile( 'index.html');
+// });
 app.get('/login', (req, resp) => {
     resp.sendFile( __dirname + '/views/login.html');
 });

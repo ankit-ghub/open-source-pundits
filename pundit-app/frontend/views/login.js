@@ -1,6 +1,6 @@
 var CLIENT_ID = '845852265177-6m614afl07h3k6jnohespnt992apn4se.apps.googleusercontent.com';
-var REDIRECT_URI_USER = 'https://pundit-frontend-hozi2czupa-ew.a.run.app/index_with_login';
-var REDIRECT_URI_ADMIN = 'https://pundit-frontend-hozi2czupa-ew.a.run.app/index_with_login';
+var REDIRECT_URI_USER = 'https://pundit-frontend-hozi2czupa-ew.a.run.app/';
+var REDIRECT_URI_ADMIN = 'https://pundit-frontend-hozi2czupa-ew.a.run.app/';
 var fragmentString = location.hash.substring(1);
 
 // Parse query string to see if page request is coming from OAuth 2.0 server.

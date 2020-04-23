@@ -129,9 +129,43 @@ app.post('/contact', (req, res) => {
         name: req.body.name,
         email: req.body.email,
         message: req.body.message,
+    };
+    const data = JSON.stringify(ev);
+    const topicName = 'webportal-frontend-topic';
+    // [START pubsub_publish]
+    // [START pubsub_quickstart_publisher]
+    /**
+     * TODO(developer): Uncomment these variables before running the sample.
+     */
+        // const topicName = 'YOUR_TOPIC_NAME';
+        // const data = JSON.stringify({foo: 'bar'});
+
+        // Imports the Google Cloud client library
+    const {PubSub} = require('@google-cloud/pubsub');
+
+    // Creates a client; cache this for further use
+    const pubSubClient = new PubSub();
+
+    async function publishMessage() {
+        /**
+         * TODO(developer): Uncomment the following lines to run the sample.
+         */
+            // const topicName = 'my-topic';
+
+            // Publishes the message as a string, e.g. "Hello, world!" or JSON.stringify(someObject)
+        const dataBuffer = Buffer.from(data);
+
+        const messageId = await pubSubClient.topic(topicName).publish(dataBuffer);
+        console.log(`Message ${messageId} published.`);
     }
+
+    publishMessage().catch(console.error);
+    // [END pubsub_publish]
+    // [END pubsub_quickstart_publisher]
     console.log(ev);
-});
+},() => {
+    res.redirect("/");
+} );
 
 // function used by both like and unlike. If increment = true, a like is added.
 // If increment is false, a like is removed.

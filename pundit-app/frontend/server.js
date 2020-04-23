@@ -70,6 +70,9 @@ app.get('/', (req, res) => {
 app.get('/login', (req, resp) => {
     resp.sendFile( __dirname + '/views/login.html');
 });
+app.get('/index_with_login', (req, res) => {
+    res.sendFile( __dirname + '/views/index_with_login.html');
+});
 app.get('/addItem', (req, res) => {
     // make a request to the backend microservice using the request package
     // the URL for the backend service should be set in configuration

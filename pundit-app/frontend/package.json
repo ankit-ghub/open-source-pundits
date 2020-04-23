@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "scripts": {
+    "start": "SERVER=http://localhost:8086 node server.js",
+    "test": "SERVER=http://localhost:8086 nyc mocha --exit"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -18,6 +22,8 @@
     "bootstrap": "^4.4.1",
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
+    "formidable": "^1.2.2",
+    "fs": "0.0.1-security",
     "jade": "^1.11.0",
     "jquery": "^3.5.0",
     "path": "^0.12.7",

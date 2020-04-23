@@ -1,4 +1,4 @@
-// 'use strict';
+ 'use strict';
 
 console.log(`process.env.SERVER = ${process.env.SERVER}`);
 // get the environment variable, but default to localhost:8082 if its not set
@@ -12,6 +12,7 @@ const path = require('path');
 // converts content in the request into parameter req.body
 // https://www.npmjs.com/package/body-parser
 const bodyParser = require('body-parser');
+// var formidable = require('formidable');
 
 // request is used to make REST calls to the backend microservice
 // details here: https://www.npmjs.com/package/request
@@ -140,7 +141,7 @@ app.get('/addItem', (req, res) => {
 
 // defines a route that receives the post request to /event
 app.post('/addItem',
-    urlencodedParser, // second argument - how to parse the uploaded content
+      urlencodedParser, // second argument - how to parse the uploaded content
     // into req.body
     (req, res) => {
         // make a request to the backend microservice using the request package
@@ -148,6 +149,36 @@ app.post('/addItem',
         // using an environment variable. Here, the variable is passed 
         // to npm start inside package.json:
         //  "start": "SERVER=http://localhost:8082 node server.js",
+        // var form = new formidable.IncomingForm();
+
+        // form.parse(req, function (err, fields, files){
+        //     var oldpath = files.fileToUpload.path;
+        //     var newpath = __dirname + + '/uploads/' + files.fileToUpload.name;
+        //     fs.rename(oldpath, newpath, function (err){
+        //         if (err) throw err;
+        //         res.write('File uploaded and moved!');
+        //         console.log(fields.name);
+        //         console.log("Request Body " + req.body.itemName.toString());
+        //     })
+        // })
+        //         console.log("Inside App Post")
+        //         var form = new formidable.IncomingForm();
+        //         form.parse(req);
+        //         form.on('fileBegin', function (name, file){
+        //             file.name = 'test'+ '.jpg';
+        //             file.path = __dirname + '/uploads/' + file.name;
+        //         });
+        //         form.on('file', function (name, file){
+        //             console.log('Uploaded ' + file.name);
+        //         });
+        // form.on('fileBegin', function (name, file){
+        //     file.path = __dirname + '/uploads/' + name;
+        // });
+        //
+        // form.on('file', function (name, file){
+        //     console.log('Uploaded ' + name);
+        // });
+        console.log(req.body);
         request.post(  // first argument: url + data + formats
             {
                 url: SERVER + '/addItem',  // the microservice end point for adding an event
@@ -157,10 +188,10 @@ app.post('/addItem',
                 },
                 json: true // response from server will be json format
             },
-            // () => {
-            //     res.render('addItems',
-            //         // {items: body.items}
-            //     )},
+             // () => {
+             //    res.render('addItems',
+             //         {items: body.items}
+             //    )},
             ()=> {
                 res.redirect("/");
             }  // redirect to the home page on successful response
@@ -188,10 +219,9 @@ app.post('/contact',
                 json: true // response from server will be json format
             },
             ()=> {
-                res.redirect("/");
+                res.redirect("/contact");
             }  // redirect to the home page on successful response
         );
-
         console.log(req);
     });
 

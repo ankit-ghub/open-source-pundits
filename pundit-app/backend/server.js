@@ -223,6 +223,7 @@ app.post('/contact', (req, res) => {
     // [END pubsub_publish]
     // [END pubsub_quickstart_publisher]
     console.log(ev);
+    return res.json();
 });
 
 // function used by both like and unlike. If increment = true, a like is added.
@@ -251,6 +252,7 @@ function changeLikes(req, res, id, increment) {
                 });
         })
         .catch(err => { console.log(err) });
+
 }
 
 // put because this is an update. Passes through to shared method.

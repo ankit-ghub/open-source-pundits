@@ -8,7 +8,7 @@ const SERVER = (process.env.SERVER ? process.env.SERVER : "http://localhost:8082
 // https://www.npmjs.com/package/express
 const express = require('express');
 const path = require('path');
-
+const imageUpload = require('./CloudStorage')
 // converts content in the request into parameter req.body
 // https://www.npmjs.com/package/body-parser
 const bodyParser = require('body-parser');
@@ -141,8 +141,10 @@ app.get('/addItem', (req, res) => {
 
 // defines a route that receives the post request to /event
 app.post('/addItem',
-      urlencodedParser, // second argument - how to parse the uploaded content
+      // urlencodedParser, // second argument - how to parse the uploaded content
     // into req.body
+    imageUpload.multer.single('upload'),
+    imageUpload.sendUploadToGCS,
     (req, res) => {
         // make a request to the backend microservice using the request package
         // the URL for the backend service should be set in configuration 
@@ -178,7 +180,7 @@ app.post('/addItem',
         // form.on('file', function (name, file){
         //     console.log('Uploaded ' + name);
         // });
-        console.log(req.body);
+        // console.log("Request body with Kevin --- " + req.body);
         request.post(  // first argument: url + data + formats
             {
                 url: SERVER + '/addItem',  // the microservice end point for adding an event

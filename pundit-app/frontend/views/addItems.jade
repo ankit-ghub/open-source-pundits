@@ -26,7 +26,7 @@ html
                                           li
                                                  a(href='/product') Products
                                           li
-                                                 a(href='page.html') A Page
+                                                 a(href='#') Upcoming Items
                                           li
                                                  a(href='meet.html') Meet the Team
                                           li
@@ -39,15 +39,15 @@ html
                                                     #content
                                                       h1 Please add an Item
                                                       h3
-                                                          form(action="/addItem" method="post")
+                                                          form(action="/addItem" method="post" enctype='multipart/form-data')
                                                                  label(for="itemNumber") Item Number
                                                                  input(type="number" id="itemNumber" name="itemNumber")
                                                                  br
-                                                                 label(for="itemType") Item Type
-                                                                 input(type="text" id="itemType" name="itemType")
-                                                                 br
                                                                  label(for="itemName") Item Name
                                                                  input(type="text" id="itemName" name="itemName")
+                                                                 br
+                                                                 label(for="itemType") Item Type
+                                                                 input(type="text" id="itemType" name="itemType")
                                                                  br
                                                                  label(for="store") Store
                                                                  br
